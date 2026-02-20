@@ -51,33 +51,7 @@ class PersonTreeCLI:
 
     def totalByDecade(self):
         """Print number of people by birth decade."""
-        by_decade = {
-            decade: []
-            for decade in range(
-                Person.YEARSTART, Person.YEAREND + 1, 10
-            )
-        }
-        visited = set()
-        search_queue = [self.tree.root1]
-        while search_queue:
-            current = pop(search_queue)
-            if id(current) in visited:
-                continue
-            visited.add(id(current))
-            current_decade = (current.yearBorn // 10) * 10
-            if current_decade in by_decade:
-                by_decade[current_decade].append(current)
-
-            if current.partner is not None:
-                partner = current.partner
-                if id(partner) not in visited:
-                    visited.add(id(partner))
-                    partner_decade = round(partner.yearBorn, -1)
-                    if partner_decade in by_decade:
-                        by_decade[partner_decade].append(partner)
-                search_queue.append(partner)
-
-            search_queue.extend(current.children)
+        by_decade = self.tree.totalByDecade()
 
         for decade in sorted(by_decade.keys()):
             print(f"{decade}s: {len(by_decade[decade])}")

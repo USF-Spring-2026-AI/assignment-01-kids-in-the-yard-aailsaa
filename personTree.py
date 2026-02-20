@@ -87,7 +87,6 @@ class PersonTree:
         with open("output.txt", "w") as file:
             file.write(str(self))
 
-
     def duplicateNames(self):
         """get all duplicate full names in the tree and return list."""
         search_queue = [self.root1]
@@ -116,10 +115,39 @@ class PersonTree:
             if len(p_set) > 1:
                 dupe_names.append(name)
         return dupe_names
+    
+    def totalByDecade(self):
+        """get number of people by birth decade and return dictionary with decade keys."""
+        by_decade = {
+            decade: []
+            for decade in range(
+                Person.YEARSTART, Person.YEAREND + 1, 10
+            )
+        }
+        visited = set()
+        search_queue = [self.root1]
+        while search_queue:
+            current = pop(search_queue)
+            if id(current) in visited:
+                continue
+            visited.add(id(current))
+            current_decade = (current.yearBorn // 10) * 10
+            if current_decade in by_decade:
+                by_decade[current_decade].append(current)
 
-        
+            if current.partner is not None:
+                partner = current.partner
+                if id(partner) not in visited:
+                    visited.add(id(partner))
+                    partner_decade = (partner.yearBorn // 10) * 10
+                    if partner_decade in by_decade:
+                        by_decade[partner_decade].append(partner)
+                search_queue.append(partner)
 
+            search_queue.extend(current.children)
 
+        return by_decade  
+    
 
 def pop(lst):
     """Remove and return first element of list; modifies in place."""
