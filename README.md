@@ -1,4 +1,10 @@
-# AI Assignment 01 - Kids in the Yard: Comparison
+# AI Assignment 01 - Kids in the Yard
+
+## How to run:
+
+please run the main file main.py
+
+## Comparison:
 
 ● Which tool(s) did you use?
 
