@@ -88,6 +88,39 @@ class PersonTree:
             file.write(str(self))
 
 
+    def duplicateNames(self):
+        """get all duplicate full names in the tree and return list."""
+        search_queue = [self.root1]
+        seen = {}
+        while search_queue:
+            current = pop(search_queue)
+            full_name = current.fName + " " + current.lName
+            if full_name not in seen:
+                seen[full_name] = {current}
+            else:
+                seen[full_name].add(current)
+
+            if current.partner is not None:
+                p_full_name = (
+                    current.partner.fName + " " + current.partner.lName
+                )
+                if p_full_name not in seen:
+                    seen[p_full_name] = {current.partner}
+                else:
+                    seen[p_full_name].add(current.partner)
+
+            search_queue.extend(current.children)
+
+        dupe_names = []
+        for name, p_set in seen.items():
+            if len(p_set) > 1:
+                dupe_names.append(name)
+        return dupe_names
+
+        
+
+
+
 def pop(lst):
     """Remove and return first element of list; modifies in place."""
     if not lst:

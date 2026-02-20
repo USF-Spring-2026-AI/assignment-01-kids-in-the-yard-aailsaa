@@ -86,39 +86,12 @@ class PersonTreeCLI:
 
     def duplicateNames(self):
         """Print duplicate full names in the tree."""
-        search_queue = [self.tree.root1]
-        seen = {}
-        while search_queue:
-            current = pop(search_queue)
-            full_name = current.fName + " " + current.lName
-            if full_name not in seen:
-                seen[full_name] = {current}
-            else:
-                seen[full_name].add(current)
-
-            if current.partner is not None:
-                p_full_name = (
-                    current.partner.fName + " " + current.partner.lName
-                )
-                if p_full_name not in seen:
-                    seen[p_full_name] = {current.partner}
-                else:
-                    seen[p_full_name].add(current.partner)
-
-            search_queue.extend(current.children)
-
-        dupe_names = []
-        total_dupes = 0
-        for name, p_set in seen.items():
-            if len(p_set) > 1:
-                dupe_names.append(name)
-                total_dupes += 1
-
-        if total_dupes == 0:
+        dupes = self.tree.duplicateNames()
+        if not dupes:
             print("there are no duplicate names.")
         else:
-            print(f"There are {total_dupes} duplicates in this tree:")
-            for dn in dupe_names:
+            print(f"There are {len(dupes)} duplicates in this tree:")
+            for dn in dupes:
                 print(f"* {dn}")
 
         self.menu()
