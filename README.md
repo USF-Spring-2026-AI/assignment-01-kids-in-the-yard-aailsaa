@@ -1,6 +1,4 @@
-# AI Assignment 01 - Kids in the Yard
-
-Comparison:
+# AI Assignment 01 - Kids in the Yard: Comparison
 
 ● Which tool(s) did you use?
 
